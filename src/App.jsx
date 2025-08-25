@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
+/* ---------- 资源路径助手：保证在 GitHub Pages 项目页下可用 ---------- */
+const asset = (p) => new URL(p, import.meta.env.BASE_URL).href;
+
 /* —— 常量（公司名 & 邮箱） —— */
 const COMPANY_NAME = "INNOVATION AEROSPACE LOGISTICS CO., LTD.";
 const MAIL = "dgdesk@ia-logistics.net";
@@ -49,7 +52,7 @@ const SERVICE_ITEMS = [
   {
     key: "airdg",
     title: "Air DG",
-    img: "/airdg.png",
+    img: asset("airdg.png"),
     desc: "Time-critical air freight for dangerous goods with full IATA DGR compliance.",
     bullets: [
       "IATA DGR compliant acceptance & screening",
@@ -61,7 +64,7 @@ const SERVICE_ITEMS = [
   {
     key: "oceandg",
     title: "Ocean DG",
-    img: "/oceandg.png",
+    img: asset("oceandg.png"),
     desc: "IMDG documentation & vessel approvals with segregation and UN packaging compatibility.",
     bullets: [
       "IMDG documentation (DGD) & vessel approvals",
@@ -73,7 +76,7 @@ const SERVICE_ITEMS = [
   {
     key: "roaddg",
     title: "Road DG",
-    img: "/roaddg.png",
+    img: asset("roaddg.png"),
     desc: "ADR-aligned trucking, domestic drayage, last-mile delivery with handling SOPs.",
     bullets: [
       "ADR-compatible domestic drayage",
@@ -85,7 +88,7 @@ const SERVICE_ITEMS = [
   {
     key: "packdg",
     title: "DG Packaging & Labels",
-    img: "/packdg.png",
+    img: asset("packdg.png"),
     desc: "UN-certified packaging, correct labels/marks, on-site repack & rework.",
     bullets: [
       "UN-certified boxes, inner packs, absorbents",
@@ -97,7 +100,7 @@ const SERVICE_ITEMS = [
   {
     key: "docdg",
     title: "DG Documentation",
-    img: "/docdg.png",
+    img: asset("docdg.png"),
     desc: "Accurate declarations, HS/PI mapping, carrier/terminal pre-checks.",
     bullets: [
       "Shipper’s Declaration, MSDS/PSDS review",
@@ -109,7 +112,7 @@ const SERVICE_ITEMS = [
   {
     key: "ComplianceConsultingdg",
     title: "Compliance Consulting",
-    img: "/ComplianceConsultingdg.png",
+    img: asset("ComplianceConsultingdg.png"),
     desc: "UN/Class assignment, packing instructions, export license advisory & training.",
     bullets: [
       "Class/UN assignment & packing instruction",
@@ -119,50 +122,6 @@ const SERVICE_ITEMS = [
     badges: ["PI/UN", "Customs", "Training"],
   },
 ];
-
-/* —— Services 下拉菜单（悬停/聚焦显示） —— */
-const ServicesMega = ({ onSelect }) => {
-  return (
-    <div
-      className="absolute left-1/2 z-40 mt-3 w-[min(1100px,92vw)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl"
-      role="menu"
-      aria-label="Services menu"
-    >
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {SERVICE_ITEMS.map((svc) => (
-          <button
-            key={svc.key}
-            onClick={() => onSelect(svc.key)}
-            className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white text-left hover:bg-slate-50"
-            role="menuitem"
-          >
-            <div className="h-28 w-full overflow-hidden">
-              <img
-                src={svc.img}
-                alt={svc.title}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.replaceWith(
-                    Object.assign(document.createElement("div"), {
-                      className:
-                        "h-full w-full grid place-items-center bg-gradient-to-br from-slate-50 to-slate-100",
-                      innerHTML: `<span class='text-slate-400 text-sm'>${svc.title}</span>`,
-                    })
-                  );
-                }}
-              />
-            </div>
-            <div className="p-4">
-              <div className="text-sm font-semibold text-slate-900">{svc.title}</div>
-              <div className="mt-1 line-clamp-2 text-xs text-slate-600">{svc.desc}</div>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 /* ================= Layout：导航 + 页脚（含 Resources 入口） ================= */
 const Layout = ({ children, setPage }) => {
@@ -196,7 +155,7 @@ const Layout = ({ children, setPage }) => {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           {/* 品牌区 */}
           <button onClick={() => setPage("home")} className="flex items-center gap-3 group" aria-label="Go Home">
-            <img src="/logo.png" alt="IAL Logo" className="h-9 w-auto rounded-sm" />
+            <img src={asset("logo.png")} alt="IAL Logo" className="h-9 w-auto rounded-sm" />
             <span className="text-sm font-semibold text-slate-900 group-hover:text-blue-700 transition">
               {COMPANY_NAME}
             </span>
@@ -278,45 +237,80 @@ const Layout = ({ children, setPage }) => {
       <main className="flex-1">{children}</main>
 
       {/* Footer */}
-{/* Footer（左侧版权 + 右侧 Follow us logos） */}
-{/* Footer（左侧版权 + 右侧 FOLLOW US logos） */}
-{/* Footer（左侧版权 + 右侧 FOLLOW US logos） */}
-<footer className="bg-white border-t border-slate-200">
-  <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500">
-    
-    {/* 左侧版权 */}
-    <div>
-      © {new Date().getFullYear()} INNOVATION AEROSPACE LOGISTICS CO., LTD. ALL RIGHTS RESERVED.
+      <footer className="bg-white border-t border-slate-200">
+        <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500">
+          {/* 左侧版权 */}
+          <div>
+            © {new Date().getFullYear()} INNOVATION AEROSPACE LOGISTICS CO., LTD. ALL RIGHTS RESERVED.
+          </div>
+          {/* 右侧 FOLLOW US */}
+          <div className="mt-3 md:mt-0 flex items-center gap-4">
+            <span className="text-slate-500 text-sm">FOLLOW US</span>
+            <a
+              href="https://www.linkedin.com/company/innovation-aerospace-logistics-inc/?viewAsMember=true"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="hover:opacity-80 transition"
+            >
+              <img src={asset("linkedin.png")} alt="LinkedIn" className="h-6 w-auto" />
+            </a>
+            <a
+              href="https://www.jctrans.com/cn/store/home/ed571607bdebadcd4bc7e5a851d7f97c"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="JCtrans"
+              className="hover:opacity-80 transition"
+            >
+              <img src={asset("jctrans.png")} alt="JCtrans" className="h-6 w-auto" />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
+  );
+};
 
-    {/* 右侧 FOLLOW US */}
-    <div className="mt-3 md:mt-0 flex items-center gap-4">
-      <span className="text-slate-500 text-sm">FOLLOW US</span>
-
-      {/* LinkedIn logo */}
-      <a
-        href="https://www.linkedin.com/company/innovation-aerospace-logistics-inc/?viewAsMember=true"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="LinkedIn"
-        className="hover:opacity-80 transition"
-      >
-        <img src="/linkedin.png" alt="LinkedIn" className="h-6 w-auto" />
-      </a>
-
-      {/* JCtrans logo */}
-      <a
-        href="https://www.jctrans.com/cn/store/home/ed571607bdebadcd4bc7e5a851d7f97c"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="JCtrans"
-        className="hover:opacity-80 transition"
-      >
-        <img src="/jctrans.png" alt="JCtrans" className="h-6 w-auto" />
-      </a>
-    </div>
-  </div>
-</footer>
+/* —— Services 下拉菜单（悬停/聚焦显示） —— */
+const ServicesMega = ({ onSelect }) => {
+  return (
+    <div
+      className="absolute left-1/2 z-40 mt-3 w-[min(1100px,92vw)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl"
+      role="menu"
+      aria-label="Services menu"
+    >
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {SERVICE_ITEMS.map((svc) => (
+          <button
+            key={svc.key}
+            onClick={() => onSelect(svc.key)}
+            className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white text-left hover:bg-slate-50"
+            role="menuitem"
+          >
+            <div className="h-28 w-full overflow-hidden">
+              <img
+                src={svc.img}
+                alt={svc.title}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.replaceWith(
+                    Object.assign(document.createElement("div"), {
+                      className:
+                        "h-full w-full grid place-items-center bg-gradient-to-br from-slate-50 to-slate-100",
+                      innerHTML: `<span class='text-slate-400 text-sm'>${svc.title}</span>`,
+                    })
+                  );
+                }}
+              />
+            </div>
+            <div className="p-4">
+              <div className="text-sm font-semibold text-slate-900">{svc.title}</div>
+              <div className="mt-1 line-clamp-2 text-xs text-slate-600">{svc.desc}</div>
+            </div>
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
@@ -333,9 +327,9 @@ const Home = ({ setPage }) => (
         playsInline
         preload="auto"
         className="h-full w-full object-cover"
-        poster="/home-bg.jpg"
+        poster={asset("home-bg.png")}
       >
-        <source src="/home-bg.mp4" type="video/mp4" />
+        <source src={asset("home-bg.mp4")} type="video/mp4" />
       </video>
       {/* 左→右渐变，提升对比度 */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
@@ -402,15 +396,15 @@ const Home = ({ setPage }) => (
 /* ================= About Us（顶部大图英雄区 + 底部白色内容带） ================= */
 const About = () => {
   const DG_LABELS = [
-    { src: "/2.png", label: "Class 2 — Gas" },
-    { src: "/3.png", label: "Class 3 — Flammable Liquid" },
-    { src: "/4.png", label: "Class 4 — Flammable Solid" },
-    { src: "/5.1.png", label: "Class 5.1 — Oxidizer" },
-    { src: "/5.2.png", label: "Class 5.2 — Organic Peroxide" },
-    { src: "/6.png", label: "Class 6 — Toxic" },
-    { src: "/8.png", label: "Class 8 — Corrosive" },
-    { src: "/9.png", label: "Class 9 — Miscellaneous" },
-    { src: "/9-battery.png", label: "Lithium Battery" },
+    { src: asset("2.png"), label: "Class 2 — Gas" },
+    { src: asset("3.png"), label: "Class 3 — Flammable Liquid" },
+    { src: asset("4.png"), label: "Class 4 — Flammable Solid" },
+    { src: asset("5.1.png"), label: "Class 5.1 — Oxidizer" },
+    { src: asset("5.2.png"), label: "Class 5.2 — Organic Peroxide" },
+    { src: asset("6.png"), label: "Class 6 — Toxic" },
+    { src: asset("8.png"), label: "Class 8 — Corrosive" },
+    { src: asset("9.png"), label: "Class 9 — Miscellaneous" },
+    { src: asset("9-battery.png"), label: "Lithium Battery" },
   ];
 
   return (
@@ -421,7 +415,7 @@ const About = () => {
         <div
           aria-hidden="true"
           className="absolute inset-0 -z-10 bg-center bg-cover"
-          style={{ backgroundImage: "url('/about-bg.jpg')" }}  // 确保文件在 public/
+          style={{ backgroundImage: `url('${asset("about-bg.jpg")}')` }}
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/70 via-black/40 to-black/20" />
 
@@ -578,7 +572,7 @@ const ServiceDetailWithBg = ({ svc, back }) => (
   <section className="bg-white">
     {/* 顶部背景大图 */}
     <div
-      className="h-[420px] bg-cover bg-center flex items-end"
+      className="h-[420px] bg-cover bg-center flex items:end items-end"
       style={{ backgroundImage: `url('${svc.img}')` }}
     >
       <div className="w-full bg-gradient-to-t from-black/60 via-black/20 to-transparent">
@@ -673,10 +667,10 @@ const Careers = () => {
 
   return (
     <section id="careers" className="bg-white">
-      {/* Hero 横幅（可选 /careers-hero.png） */}
+      {/* Hero 横幅 */}
       <div
         className="h-[300px] sm:h-[360px] lg:h-[420px] bg-cover bg-center flex items-end"
-        style={{ backgroundImage: "url('/careers-hero.png')" }}
+        style={{ backgroundImage: `url('${asset("careers-hero.png")}')` }}
       >
         <div className="w-full bg-gradient-to-t from-black/60 via-black/25 to-transparent">
           <div className="mx-auto max-w-7xl px-6 py-8">
@@ -856,7 +850,7 @@ const Resources = () => (
             Responsibilities, costs, and risks between sellers and buyers.
           </p>
           <a
-            href="/incoterms-2020.pdf"
+            href={asset("incoterms-2020.pdf")}
             target="_blank" rel="noopener noreferrer"
             className="text-blue-600 hover:underline text-sm font-medium"
           >
