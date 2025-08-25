@@ -322,10 +322,6 @@ const Layout = ({ children, setPage }) => {
 };
 
 /* ================= Home：视频背景 + Expert Support ================= */
-const Home = ({ setPage }) => (
-  <section className="relative isolate overflow-hidden min-h-[100dvh]">
-    {/* 背景视频 */}
-    <div className="absolute inset-0 -z-10">
 const Home = ({ setPage }) => {
   const [ready, setReady] = React.useState(false);
 
@@ -338,8 +334,8 @@ const Home = ({ setPage }) => {
           loop
           muted
           playsInline
-          preload="metadata"                         // 减少首屏体积；也可用 "auto"
-          onCanPlay={() => setReady(true)}           // 可播放时再显示
+          preload="metadata"                     // 不用 poster
+          onCanPlay={() => setReady(true)}       // 可播放时再显示
           className={`h-full w-full object-cover transition-opacity duration-700 ${
             ready ? "opacity-100" : "opacity-0"
           }`}
@@ -347,73 +343,30 @@ const Home = ({ setPage }) => {
         >
           <source src={asset("home-bg.mp4")} type="video/mp4" />
         </video>
-        {/* 左→右渐变，作为加载前的纯背景 */}
+        {/* 左→右渐变，提升对比度 */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
       </div>
 
-      {/* 其余内容保持不变 … */}
-
-      {/* 左→右渐变，提升对比度 */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-    </div>
-
-    {/* 顶部文案 */}
-    <div className="mx-auto max-w-7xl px-6 pt-24 sm:pt-28 text-white">
-      <div className="mb-6 flex flex-wrap items-center gap-2 text-xs font-medium">
-        {["IATA DGR", "IMDG", "ADR", "24/7 Ops", "China Origin Expert"].map((t) => (
-          <span key={t} className="rounded-full bg-white/15 px-3 py-1 backdrop-blur">
-            {t}
-          </span>
-        ))}
-      </div>
-
-      <h1 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-        Your Trusted Partner for{" "}
-        <span className="bg-gradient-to-r from-sky-300 to-cyan-200 bg-clip-text text-transparent font-extrabold">
-          Dangerous Goods
-        </span>{" "}
-        from China
-      </h1>
-      <p className="mt-4 max-w-2xl text-slate-200">
-        Compliance-first DG logistics for high-stakes cargo. Customs-savvy, fast, and safe — from China to the world.
-      </p>
-
-      {/* 顶部主 CTA */}
-      <div className="mt-8 flex flex-wrap gap-3">
-        <button
-          onClick={() => setPage("contact")}
-          className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
-        >
-          Request a Quote <ArrowRight className="h-4 w-4" />
-        </button>
-        <button
-          onClick={() => setPage("services")}
-          className="rounded-2xl px-5 py-3 text-sm font-semibold text-white/90 ring-1 ring-inset ring-white/40 hover:bg-white/10"
-        >
-          Explore Services
-        </button>
-      </div>
-    </div>
-
-    {/* 底部覆盖层：Need Expert Support?（紧凑白色按钮） */}
-    <div className="absolute bottom-0 inset-x-0 z-20 bg-black/60 py-6">
-      <div className="mx-auto max-w-2xl px-4 text-center">
-        <h2 className="text-xl sm:text-2xl font-semibold text-white">Need Expert Support?</h2>
-        <p className="mt-1 text-sm text-slate-300">
-          Our DG specialists are available 24/7 to help with compliance and logistics challenges.
-        </p>
-        <div className="mt-4">
-          <button
-            onClick={() => setPage("contact")}
-            className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow hover:bg-slate-100 transition"
-          >
-            Talk to an Expert <ArrowRight className="h-4 w-4" />
-          </button>
+      {/* 顶部文案 */}
+      <div className="mx-auto max-w-7xl px-6 pt-24 sm:pt-28 text-white">
+        <div className="mb-6 flex flex-wrap items-center gap-2 text-xs font-medium">
+          {["IATA DGR", "IMDG", "ADR", "24/7 Ops", "China Origin Expert"].map((t) => (
+            <span key={t} className="rounded-full bg-white/15 px-3 py-1 backdrop-blur">
+              {t}
+            </span>
+          ))}
         </div>
-      </div>
-    </div>
-  </section>
-);
+
+        <h1 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          Your Trusted Partner for{" "}
+          <span className="bg-gradient-to-r from-sky-300 to-cyan-200 bg-clip-text text-transparent font-extrabold">
+            Dangerous Goods
+          </span>{" "}
+          from China
+        </h1>
+        <p className="mt-4 max-w-2xl text-slate-200">
+          Compliance-first DG logistics for high-stakes cargo. Customs-savvy, fast, and safe — from China t
+
 
 /* ================= About Us（顶部大图英雄区 + 底部白色内容带） ================= */
 const About = () => {
