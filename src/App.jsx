@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 /* ---------- 资源路径助手：保证在 GitHub Pages 项目页下可用 ---------- */
 const asset = (p) => `${import.meta.env.BASE_URL}${p.replace(/^\//, "")}`;
 
+
 /* —— 常量（公司名 & 邮箱） —— */
 const COMPANY_NAME = "INNOVATION AEROSPACE LOGISTICS CO., LTD.";
 const MAIL = "dgdesk@ia-logistics.net";
@@ -325,17 +326,33 @@ const Home = ({ setPage }) => (
   <section className="relative isolate overflow-hidden min-h-[100dvh]">
     {/* 背景视频 */}
     <div className="absolute inset-0 -z-10">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        className="h-full w-full object-cover"
-        poster={asset("home-bg.png")}
-      >
-        <source src={asset("home-bg.mp4")} type="video/mp4" />
-      </video>
+const Home = ({ setPage }) => {
+  const [ready, setReady] = React.useState(false);
+
+  return (
+    <section className="relative isolate overflow-hidden min-h-[100dvh]">
+      {/* 背景视频 */}
+      <div className="absolute inset-0 -z-10">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"                         // 减少首屏体积；也可用 "auto"
+          onCanPlay={() => setReady(true)}           // 可播放时再显示
+          className={`h-full w-full object-cover transition-opacity duration-700 ${
+            ready ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden="true"
+        >
+          <source src={asset("home-bg.mp4")} type="video/mp4" />
+        </video>
+        {/* 左→右渐变，作为加载前的纯背景 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+      </div>
+
+      {/* 其余内容保持不变 … */}
+
       {/* 左→右渐变，提升对比度 */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
     </div>
