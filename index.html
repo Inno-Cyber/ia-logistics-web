@@ -3,12 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IAL — Innovation Aerospace Logistics</title>
-    <!-- Tailwind via CDN (simple, no config needed) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Innovation Aerospace Logistics</title>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="description" content="Compliance-first dangerous goods logistics from China." />
+    <style>html,body,#root{height:100%}body{margin:0}</style>
   </head>
-  <body class="antialiased bg-gradient-to-b from-sky-50 via-white to-sky-100">
+  <body>
     <div id="root"></div>
+    <!-- 开发时走 /src/main.jsx；构建时 Vite 会替换为 /ia-logistics-web/assets/*.js -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
