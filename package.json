@@ -3,19 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": { "postbuild": "copy dist\\index.html dist\\404.html"
+  "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "predeploy": "npm run build && powershell -Command \"Copy-Item dist/index.html dist/404.html\"",
-    "deploy": "gh-pages -d dist"
+    "postbuild": "node -e \"require('fs').copyFileSync('dist/index.html','dist/404.html')\""
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
-    "gh-pages": "^6.1.1"
+    "vite": "^5.0.0"
   }
 }
+
