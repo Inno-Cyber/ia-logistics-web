@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 /* ---------- 资源路径助手：保证在 GitHub Pages 项目页下可用 ---------- */
-const asset = (p) => `${import.meta.env.BASE_URL}${p.replace(/^\//, "")}`;
-
+const asset = (p) => new URL(p, import.meta.env.BASE_URL).href;
 
 /* —— 常量（公司名 & 邮箱） —— */
 const COMPANY_NAME = "INNOVATION AEROSPACE LOGISTICS CO., LTD.";
@@ -323,7 +322,7 @@ const Layout = ({ children, setPage }) => {
 
 /* ================= Home：视频背景 + Expert Support ================= */
 const Home = ({ setPage }) => {
-  const [ready, setReady] = React.useState(false);
+  const [ready, setReady] = useState(false);
 
   return (
     <section className="relative isolate overflow-hidden min-h-[100dvh]">
@@ -334,7 +333,7 @@ const Home = ({ setPage }) => {
           loop
           muted
           playsInline
-          preload="metadata"                     // 不用 poster
+          preload="metadata"                     // 不使用 poster
           onCanPlay={() => setReady(true)}       // 可播放时再显示
           className={`h-full w-full object-cover transition-opacity duration-700 ${
             ready ? "opacity-100" : "opacity-0"
@@ -365,8 +364,46 @@ const Home = ({ setPage }) => {
           from China
         </h1>
         <p className="mt-4 max-w-2xl text-slate-200">
-          Compliance-first DG logistics for high-stakes cargo. Customs-savvy, fast, and safe — from China t
+          Compliance-first DG logistics for high-stakes cargo. Customs-savvy, fast, and safe — from China to the world.
+        </p>
 
+        {/* 顶部主 CTA */}
+        <div className="mt-8 flex flex-wrap gap-3">
+          <button
+            onClick={() => setPage("contact")}
+            className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+          >
+            Request a Quote <ArrowRight className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => setPage("services")}
+            className="rounded-2xl px-5 py-3 text-sm font-semibold text-white/90 ring-1 ring-inset ring-white/40 hover:bg-white/10"
+          >
+            Explore Services
+          </button>
+        </div>
+      </div>
+
+      {/* 底部覆盖层：Need Expert Support?（紧凑白色按钮） */}
+      <div className="absolute bottom-0 inset-x-0 z-20 bg-black/60 py-6">
+        <div className="mx-auto max-w-2xl px-4 text-center">
+          <h2 className="text-xl sm:text-2xl font-semibold text-white">Need Expert Support?</h2>
+          <p className="mt-1 text-sm text-slate-300">
+            Our DG specialists are available 24/7 to help with compliance and logistics challenges.
+          </p>
+          <div className="mt-4">
+            <button
+              onClick={() => setPage("contact")}
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow hover:bg-slate-100 transition"
+            >
+              Talk to an Expert <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 /* ================= About Us（顶部大图英雄区 + 底部白色内容带） ================= */
 const About = () => {
@@ -983,7 +1020,6 @@ export default function App() {
     const svc = SERVICE_ITEMS.find((s) => s.key === page);
     if (!svc) return null;
     return <ServiceDetailWithBg svc={svc} back={() => setPage("services")} />;
-    // 注意：ServiceDetailWithBg 在此文件中已定义，svc.img 已是绝对 URL
   };
 
   return (
