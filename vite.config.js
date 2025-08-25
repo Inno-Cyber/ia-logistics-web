@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
-// import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/ia-logistics-web/',
-  // plugins: [react()],
+  plugins: [react()],
+  base: '/ia-logistics-web/', // ⚠️ 项目页必须这样
 })
