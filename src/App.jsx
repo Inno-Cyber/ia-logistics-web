@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 
 /* ---------- 资源路径助手：保证在 GitHub Pages 项目页下可用 ---------- */
-const asset = (p) => new URL(p, import.meta.env.BASE_URL).href;
+const asset = (p) => {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/+$/, "");
+  const path = String(p).replace(/^\/+/, "");
+  return `${base}/${path}`;
+};
 
 /* —— 常量（公司名 & 邮箱） —— */
 const COMPANY_NAME = "INNOVATION AEROSPACE LOGISTICS CO., LTD.";
