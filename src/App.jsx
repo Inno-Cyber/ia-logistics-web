@@ -123,6 +123,50 @@ const SERVICE_ITEMS = [
   },
 ];
 
+/* —— Services 下拉菜单（悬停/聚焦显示） —— */
+const ServicesMega = ({ onSelect }) => {
+  return (
+    <div
+      className="absolute left-1/2 z-40 mt-3 w-[min(1100px,92vw)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl"
+      role="menu"
+      aria-label="Services menu"
+    >
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {SERVICE_ITEMS.map((svc) => (
+          <button
+            key={svc.key}
+            onClick={() => onSelect(svc.key)}
+            className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white text-left hover:bg-slate-50"
+            role="menuitem"
+          >
+            <div className="h-28 w-full overflow-hidden">
+              <img
+                src={svc.img}
+                alt={svc.title}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.replaceWith(
+                    Object.assign(document.createElement("div"), {
+                      className:
+                        "h-full w-full grid place-items-center bg-gradient-to-br from-slate-50 to-slate-100",
+                      innerHTML: `<span class='text-slate-400 text-sm'>${svc.title}</span>`,
+                    })
+                  );
+                }}
+              />
+            </div>
+            <div className="p-4">
+              <div className="text-sm font-semibold text-slate-900">{svc.title}</div>
+              <div className="mt-1 line-clamp-2 text-xs text-slate-600">{svc.desc}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 /* ================= Layout：导航 + 页脚（含 Resources 入口） ================= */
 const Layout = ({ children, setPage }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -236,16 +280,19 @@ const Layout = ({ children, setPage }) => {
       {/* 内容 */}
       <main className="flex-1">{children}</main>
 
-      {/* Footer */}
+      {/* Footer（左侧版权 + 右侧 FOLLOW US logos） */}
       <footer className="bg-white border-t border-slate-200">
         <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500">
           {/* 左侧版权 */}
           <div>
             © {new Date().getFullYear()} INNOVATION AEROSPACE LOGISTICS CO., LTD. ALL RIGHTS RESERVED.
           </div>
+
           {/* 右侧 FOLLOW US */}
           <div className="mt-3 md:mt-0 flex items-center gap-4">
             <span className="text-slate-500 text-sm">FOLLOW US</span>
+
+            {/* LinkedIn logo */}
             <a
               href="https://www.linkedin.com/company/innovation-aerospace-logistics-inc/?viewAsMember=true"
               target="_blank"
@@ -255,6 +302,8 @@ const Layout = ({ children, setPage }) => {
             >
               <img src={asset("linkedin.png")} alt="LinkedIn" className="h-6 w-auto" />
             </a>
+
+            {/* JCtrans logo */}
             <a
               href="https://www.jctrans.com/cn/store/home/ed571607bdebadcd4bc7e5a851d7f97c"
               target="_blank"
@@ -271,51 +320,7 @@ const Layout = ({ children, setPage }) => {
   );
 };
 
-/* —— Services 下拉菜单（悬停/聚焦显示） —— */
-const ServicesMega = ({ onSelect }) => {
-  return (
-    <div
-      className="absolute left-1/2 z-40 mt-3 w-[min(1100px,92vw)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl"
-      role="menu"
-      aria-label="Services menu"
-    >
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {SERVICE_ITEMS.map((svc) => (
-          <button
-            key={svc.key}
-            onClick={() => onSelect(svc.key)}
-            className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white text-left hover:bg-slate-50"
-            role="menuitem"
-          >
-            <div className="h-28 w-full overflow-hidden">
-              <img
-                src={svc.img}
-                alt={svc.title}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.replaceWith(
-                    Object.assign(document.createElement("div"), {
-                      className:
-                        "h-full w-full grid place-items-center bg-gradient-to-br from-slate-50 to-slate-100",
-                      innerHTML: `<span class='text-slate-400 text-sm'>${svc.title}</span>`,
-                    })
-                  );
-                }}
-              />
-            </div>
-            <div className="p-4">
-              <div className="text-sm font-semibold text-slate-900">{svc.title}</div>
-              <div className="mt-1 line-clamp-2 text-xs text-slate-600">{svc.desc}</div>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-/* ================= Home：视频背景 + Expert Support（紧凑居中版） ================= */
+/* ================= Home：视频背景 + Expert Support ================= */
 const Home = ({ setPage }) => (
   <section className="relative isolate overflow-hidden min-h-[100dvh]">
     {/* 背景视频 */}
@@ -572,7 +577,7 @@ const ServiceDetailWithBg = ({ svc, back }) => (
   <section className="bg-white">
     {/* 顶部背景大图 */}
     <div
-      className="h-[420px] bg-cover bg-center flex items:end items-end"
+      className="h-[420px] bg-cover bg-center flex items-end"
       style={{ backgroundImage: `url('${svc.img}')` }}
     >
       <div className="w-full bg-gradient-to-t from-black/60 via-black/20 to-transparent">
@@ -667,7 +672,7 @@ const Careers = () => {
 
   return (
     <section id="careers" className="bg-white">
-      {/* Hero 横幅 */}
+      {/* Hero 横幅（可选 /careers-hero.png） */}
       <div
         className="h-[300px] sm:h-[360px] lg:h-[420px] bg-cover bg-center flex items-end"
         style={{ backgroundImage: `url('${asset("careers-hero.png")}')` }}
@@ -1008,6 +1013,7 @@ export default function App() {
     const svc = SERVICE_ITEMS.find((s) => s.key === page);
     if (!svc) return null;
     return <ServiceDetailWithBg svc={svc} back={() => setPage("services")} />;
+    // 注意：ServiceDetailWithBg 在此文件中已定义，svc.img 已是绝对 URL
   };
 
   return (
