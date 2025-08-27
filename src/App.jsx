@@ -324,29 +324,48 @@ const Layout = ({ children, setPage }) => {
   );
 };
 
-/* ================= Home：视频背景 + Expert Support ================= */
+/* ================= Home：视频背景（懒加载+淡入） + Expert Support ================= */
 const Home = ({ setPage }) => {
-  const [ready, setReady] = useState(false);
+  const [vidReady, setVidReady] = useState(false);
+  const vidRef = useRef(null);
+
+  // 进入视口后再加载视频，减少首屏带宽
+  useEffect(() => {
+    const el = vidRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.load(); // 真正开始请求视频
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section className="relative isolate overflow-hidden min-h-[100dvh]">
-      {/* 背景视频 */}
+      {/* 背景视频（无 poster，懒加载，淡入） */}
       <div className="absolute inset-0 -z-10">
         <video
-          autoPlay
-          loop
+          ref={vidRef}
+          preload="none"           // 关键：不抢首屏带宽
           muted
+          loop
           playsInline
-          preload="metadata"                     // 不使用 poster
-          onCanPlay={() => setReady(true)}       // 可播放时再显示
-          className={`h-full w-full object-cover transition-opacity duration-700 ${
-            ready ? "opacity-100" : "opacity-0"
-          }`}
-          aria-hidden="true"
+          autoPlay
+          onCanPlayThrough={() => setVidReady(true)}
+          className={`h-full w-full object-cover transition-opacity duration-500 ${vidReady ? "opacity-100" : "opacity-0"}`}
         >
-          <source src={asset("home-bg.mp4")} type="video/mp4" />
+          {/* 优先更小的 webm；Safari 会落回 mp4。?v=1 用来刷新缓存 */}
+          <source src={asset("home-bg-720.webm?v=1")} type="video/webm" />
+          <source src={asset("home-bg-720.mp4?v=1")} type="video/mp4" />
         </video>
-        {/* 左→右渐变，提升对比度 */}
+
+        {/* 左→右渐变，提升前景文案对比度 */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
       </div>
 
@@ -377,8 +396,13 @@ const Home = ({ setPage }) => {
             onClick={() => setPage("contact")}
             className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
           >
-            Request a Quote <ArrowRight className="h-4 w-4" />
+            Request a Quote
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M5 12h14" />
+              <path d="M13 5l7 7-7 7" />
+            </svg>
           </button>
+
           <button
             onClick={() => setPage("services")}
             className="rounded-2xl px-5 py-3 text-sm font-semibold text-white/90 ring-1 ring-inset ring-white/40 hover:bg-white/10"
@@ -388,7 +412,7 @@ const Home = ({ setPage }) => {
         </div>
       </div>
 
-      {/* 底部覆盖层：Need Expert Support?（紧凑白色按钮） */}
+      {/* 底部覆盖层：Need Expert Support?（白色按钮） */}
       <div className="absolute bottom-0 inset-x-0 z-20 bg-black/60 py-6">
         <div className="mx-auto max-w-2xl px-4 text-center">
           <h2 className="text-xl sm:text-2xl font-semibold text-white">Need Expert Support?</h2>
@@ -400,7 +424,11 @@ const Home = ({ setPage }) => {
               onClick={() => setPage("contact")}
               className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow hover:bg-slate-100 transition"
             >
-              Talk to an Expert <ArrowRight className="h-4 w-4" />
+              Talk to an Expert
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M5 12h14" />
+                <path d="M13 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
@@ -408,6 +436,7 @@ const Home = ({ setPage }) => {
     </section>
   );
 };
+
 
 /* ================= About Us（顶部大图英雄区 + 底部白色内容带） ================= */
 const About = () => {
