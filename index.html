@@ -2,16 +2,40 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Innovation Aerospace Logistics</title>
-    <link rel="icon" type="image/png" href="logo.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>IAL — Innovation Aerospace Logistics</title>
+
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="Compliance-first dangerous goods logistics from China. IATA DGR / IMDG / ADR."
+    />
+    <meta name="robots" content="index,follow" />
+    <!-- 关键：规范化到裸域 -->
+    <link rel="canonical" href="https://ia-logistics.net/" />
+
+    <!-- Open Graph（可按需调整） -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Innovation Aerospace Logistics" />
+    <meta
+      property="og:description"
+      content="Compliance-first dangerous goods logistics from China."
+    />
+    <meta property="og:url" content="https://ia-logistics.net/" />
+    <meta property="og:image" content="https://ia-logistics.net/logo.png" />
+
+    <!-- PWA/样式细节 -->
     <meta name="theme-color" content="#0ea5e9" />
-    <meta name="description" content="Compliance-first dangerous goods logistics from China." />
-    <style>html,body,#root{height:100%}body{margin:0}</style>
+    <link rel="icon" type="image/png" href="/logo.png" />
   </head>
-  <body>
+  <body class="bg-white text-slate-800 antialiased">
     <div id="root"></div>
-    <!-- 开发时走 /src/main.jsx；构建后 Vite 会替换为 /ia-logistics-web/assets/*.js -->
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <!-- Vite 入口：保持从根路径加载 -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
